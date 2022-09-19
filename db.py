@@ -29,6 +29,8 @@ def find_user(email):
     #print("finding user",email,query,args)
     g.cursor.execute(query, args)
     fetched = g.cursor.fetchone()
+    if fetched == None: 
+        return None
 
     myresult = { 'id':fetched[0],
                 'email': fetched[1],
@@ -50,22 +52,25 @@ def create_user(email, first_name, last_name, password):
     return g.cursor.rowcount
 
 def authenticate(email,password): #add any oter features here too
-  # check for empty values?
-  #mycursor = mydb.cursor(pymysql.cursors.DictCursor)
-  query = """SELECT * FROM users WHERE
-          email = ? AND password = ?;"""
-  values = (email,password)
-  g.cursor.execute(query, values)
-  fetched = g.cursor.fetchone()
-  myresult = { 'id':fetched[0],
+    # check for empty values?
+    #mycursor = mydb.cursor(pymysql.cursors.DictCursor)
+    query = """SELECT * FROM users WHERE
+            email = ? AND password = ?;"""
+    values = (email,password)
+    g.cursor.execute(query, values)
+    fetched = g.cursor.fetchone()
+    if fetched == None: 
+        return [False,'badboi']
+
+    myresult = { 'id':fetched[0],
                 'email': fetched[1],
                 'first_name': fetched[2],
                 'last_name': fetched[3],
                 }
-  print("fetched",myresult)
-  if myresult != None:
+    print("fetched",myresult)
+    if myresult != None:
         return [True,myresult]
-  else:
+    else:
         return [False,'badboi']
 
 
