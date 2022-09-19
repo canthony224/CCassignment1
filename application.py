@@ -130,4 +130,6 @@ def create_user():
     return render_template('user-form.html', form=user_form)
 
 
-app.run(debug=True)
+app.run(host    = "0.0.0.0",
+        debug   = True,
+        port    = 80)
